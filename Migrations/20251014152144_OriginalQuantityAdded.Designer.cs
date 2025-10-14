@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InventoryManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250929014154_emailUniquess")]
-    partial class emailUniquess
+    [Migration("20251014152144_OriginalQuantityAdded")]
+    partial class OriginalQuantityAdded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,14 +111,14 @@ namespace InventoryManagementSystem.Migrations
                     b.Property<string>("RefreshTokenId")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("EmployeeId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("ExpiresAt")
+                    b.Property<DateTimeOffset>("ExpiresAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsActive")
@@ -128,10 +128,10 @@ namespace InventoryManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ReplacedTokenId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ReplacedTokenId")
+                        .HasColumnType("text");
 
-                    b.Property<DateTime?>("RevokeAt")
+                    b.Property<DateTimeOffset?>("RevokeAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("RefreshTokenId");
@@ -222,6 +222,37 @@ namespace InventoryManagementSystem.Migrations
                     b.ToTable("TblCategory", (string)null);
                 });
 
+            modelBuilder.Entity("InventoryManagementSystem.Models.Inventories.FileMetadata", b =>
+                {
+                    b.Property<string>("GeneratedName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OriginalName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("UploadedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UploadedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("GeneratedName");
+
+                    b.ToTable("FileMetadatas");
+                });
+
             modelBuilder.Entity("InventoryManagementSystem.Models.Inventories.Item", b =>
                 {
                     b.Property<string>("ItemId")
@@ -241,11 +272,15 @@ namespace InventoryManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("FileId")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -256,9 +291,8 @@ namespace InventoryManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Place")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("OriginalQuantity")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");

@@ -147,6 +147,7 @@ C:\Users\Admin\Desktop\API\InventoryManagementSystem\InventoryManagementSystem\o
 C:\Users\Admin\Desktop\API\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\InventoryManagementSystem.csproj.CoreCompileInputs.cache
 C:\Users\Admin\Desktop\API\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\InventoryManagementSystem.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Admin\Desktop\API\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\InventoryManagementSystem.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Admin\Desktop\API\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\InventoryManagementSystem.sourcelink.json
 C:\Users\Admin\Desktop\API\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\Admin\Desktop\API\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Admin\Desktop\API\InventoryManagementSystem\InventoryManagementSystem\obj\Debug\net8.0\staticwebassets\msbuild.InventoryManagementSystem.Microsoft.AspNetCore.StaticWebAssets.props

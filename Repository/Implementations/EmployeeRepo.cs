@@ -73,21 +73,21 @@ public class EmployeeRepo : GenericRepo<Employee>, IEmployeeRepo
         return new OperationResult(true, $"Deleteed {email} successfully");
     }
 
-    public async Task<PaginatedList<EmployeeDetailsDto>> GetAllEmployeesWithRoles(string? keyWord,int pageIndex = 1, int pageSize = 6)
+    public async Task<PaginatedList<EmployeeDetailsDto>> GetAllEmployeesWithRoles(EmployeeQueryParams queryParams)
     {
-        var query = _context.Employees.AsQueryable();
-        if (!string.IsNullOrEmpty(keyWord))
+        var query = _context.Employees.AsNoTracking().AsQueryable();
+        if (!string.IsNullOrEmpty(queryParams.SearchTerm))
         {
             query = query.Where(e =>
-                EF.Functions.ILike(e.Email, $"%{keyWord}%") ||
-                EF.Functions.ILike(e.EmployeeName, $"%{keyWord}%")
+                EF.Functions.ILike(e.Email, $"%{queryParams.SearchTerm}%") ||
+                EF.Functions.ILike(e.EmployeeName, $"%{queryParams.SearchTerm}%")
             );
         }
         var count = await query.CountAsync();
         var employeeList = await query
             .OrderBy(e => e.EmployeeName)
-            .Skip(pageSize * (pageIndex - 1))
-            .Take(pageSize)
+            .Skip(queryParams.PageSize * (queryParams.PageIndex - 1))
+            .Take(queryParams.PageSize)
             .Include(e => e.EmployeeRoles)
             .ThenInclude(er => er.Role)
             .ThenInclude(r => r.RolePermissions)
@@ -97,8 +97,8 @@ public class EmployeeRepo : GenericRepo<Employee>, IEmployeeRepo
                 EmployeeId = e.EmployeeId,
                 Email = e.Email,
                 EmployeeName = e.EmployeeName,
-                Roles = e.EmployeeRoles.Select(
-                    er => er.Role.RoleName)
+                Roles = e.EmployeeRoles
+                    .Select(er => er.Role.RoleName)
                     .ToList(),
                 Permissions = e.EmployeeRoles
                 .SelectMany(er => er.Role.RolePermissions)
@@ -107,7 +107,7 @@ public class EmployeeRepo : GenericRepo<Employee>, IEmployeeRepo
                 .ToList()
             }).ToListAsync();
         Console.WriteLine(employeeList);
-        return new PaginatedList<EmployeeDetailsDto>(employeeList, count, pageIndex, pageSize);
+        return new PaginatedList<EmployeeDetailsDto>(employeeList, count, queryParams.PageIndex, queryParams.PageSize);
     }
 
     public Task<Employee?> GetEmployeeByEmail(string email)

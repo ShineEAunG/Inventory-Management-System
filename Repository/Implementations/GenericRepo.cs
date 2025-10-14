@@ -16,7 +16,6 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class
     public async Task<T> Create(T entity)
     {
         await dbSet.AddAsync(entity);
-        await _context.SaveChangesAsync();
         return entity;
     }
 
@@ -32,7 +31,7 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class
 
     public async Task<IEnumerable<T>> GetAll()
     {
-        var entityList = await dbSet.ToListAsync();
+        var entityList = await dbSet.AsNoTracking().ToListAsync();
         return entityList;
     }
 

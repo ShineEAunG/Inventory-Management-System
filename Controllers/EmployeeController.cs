@@ -15,9 +15,9 @@ public class EmployeeController : ControllerBase
         this._service = service;
     }
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery]string? keyWord)
+    public async Task<IActionResult> GetAll([FromQuery]EmployeeQueryParams queryParams)
     {
-        var employees = await _service.GetAll(keyWord);
+        var employees = await _service.GetAll(queryParams);
         return Ok(employees);
     }
     [HttpGet("{email}")]
@@ -34,7 +34,7 @@ public class EmployeeController : ControllerBase
         return Ok(operationResult);
     }
     [Authorize(Policy ="CanDelete")]
-    [HttpDelete]
+    [HttpDelete("{email}")]
     public async Task<IActionResult> Delete(string email)
     {
         var operationResult = await _service.Delete(email);

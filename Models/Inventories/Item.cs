@@ -7,13 +7,15 @@ public class Item
 {
     public Ulid ItemId { get; set; } = Ulid.NewUlid();
     public string ItemName { get; set; } = null!;
+    public int OriginalQuantity { get; set; }
     public int Quantity { get; set; }
-    public string Place { get; set; } = string.Empty;
+    public string Location { get; set; } = string.Empty;
     public string FileId { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string CreatedBy { get; set; } = null!;
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public string ModifiedBy { get; set; } = string.Empty;
+    //concurrency check
     public DateTimeOffset? ModifiedAt { get; set; }    
     [ForeignKey("Category")]
     public Ulid? CategoryId { get; set; }

@@ -16,34 +16,37 @@ public class ItemRepo : GenericRepo<Item>, IItemRepo
 
     }
 
-public async Task<PaginatedList<ItemDetails>> GetAllDetails(string? keyWord, int pageIndex = 1, int pageSize = 6)
+public async Task<PaginatedList<ItemDetails>> GetAllDetails(ItemQueryParams queryParams)
 {
-    var query = _context.Items.AsQueryable();
+    var query = _context.Items.AsNoTracking().AsQueryable();
+    if (Ulid.TryParse(queryParams.CategoryId, out var categoryId))
+        query = query.Where(i => i.CategoryId == categoryId);
 
-    if (!string.IsNullOrWhiteSpace(keyWord))
+    if (!string.IsNullOrWhiteSpace(queryParams.SearchTerm))
     {
         query = query.Where(i =>
-            EF.Functions.ILike(i.ItemName, $"%{keyWord}%") ||
-            EF.Functions.ILike(i.Description, $"%{keyWord}%"));
+            EF.Functions.ILike(i.ItemName, $"%{queryParams.SearchTerm}%") ||
+            EF.Functions.ILike(i.Description, $"%{queryParams.SearchTerm}%"));
     }
     var count = await query.CountAsync();
     var itemDetails = await query
         .OrderBy(i => i.ItemName)
-        .Skip(pageSize * (pageIndex - 1))
-        .Take(pageSize)
+        .Skip(queryParams.PageSize * (queryParams.PageIndex - 1))
+        .Take(queryParams.PageSize)
         .Select(i => new ItemDetails
         {
             ItemId = i.ItemId,
             ItemName = i.ItemName,
+            OriginalQuantity = i.OriginalQuantity,
             Quantity = i.Quantity,
-            Place = i.Place,
+            Location = i.Location,
             FileId = i.FileId,
             Description = i.Description,
             CategoryId = i.CategoryId.HasValue ? i.CategoryId.Value.ToString() : string.Empty
         })
         .ToListAsync();
 
-    return new PaginatedList<ItemDetails>(itemDetails, count, pageIndex, pageSize);
+    return new PaginatedList<ItemDetails>(itemDetails, count, queryParams.PageIndex, queryParams.PageSize);
 }
 
 
@@ -56,8 +59,9 @@ public async Task<PaginatedList<ItemDetails>> GetAllDetails(string? keyWord, int
         {
             ItemId = i.ItemId,
             ItemName = i.ItemName,
+            OriginalQuantity = i.OriginalQuantity,
             Quantity = i.Quantity,
-            Place = i.Place,
+            Location = i.Location,
             FileId = i.FileId,
             Description = i.Description,
             CategoryId = i.CategoryId.HasValue ? i.CategoryId.Value.ToString() : string.Empty

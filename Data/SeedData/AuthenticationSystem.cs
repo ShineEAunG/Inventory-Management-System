@@ -89,6 +89,12 @@ public static class AuthenticationSystem
                 RoleId = roles[1].RoleId,
                 PermissionId = permissions[2].PermissionId,
                 CreatedBy = Creator.System
+            },
+            new()
+            {
+                RoleId = roles[1].RoleId,
+                PermissionId = permissions[3].PermissionId,
+                CreatedBy = Creator.System
             }
         };
         appDbContext.RolePermissions.AddRange(rolesPermission);

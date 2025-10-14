@@ -19,7 +19,7 @@ public class CategoryRepo : GenericRepo<Category>, ICategoryRepo
 
     public async Task<PaginatedList<CategoryDetails>> GetAllCategoryDetails(string? keyWord, int pageIndex = 1, int pageSize = 6)
     {
-        var query = _context.Categories.AsQueryable();
+        var query = _context.Categories.AsNoTracking().AsQueryable();
         if (!string.IsNullOrEmpty(keyWord))
         {
             query = query.Where(c =>
@@ -28,13 +28,14 @@ public class CategoryRepo : GenericRepo<Category>, ICategoryRepo
         }
 
         var count = await query.CountAsync();
+
         var categoryList = await query.OrderBy(c => c.CategoryName)
             .Skip(pageSize * (pageIndex - 1))
             .Take(pageSize)
             .Select(c => new CategoryDetails
             {
                 CategoryId = c.CategoryId,
-
+                ItemCount = _context.Items.Count(i => i.CategoryId == c.CategoryId),
                 CategoryName = c.CategoryName,
                 Description = c.Description
             }).ToListAsync();

@@ -37,8 +37,9 @@ public static class InventorySystem
             new Item
             {
                 ItemName = "Laptop",
+                OriginalQuantity = 4,
                 Quantity = 2,
-                Place = "Warehouse A",
+                Location = "Warehouse A",
                 FileId = "",
                 Description = "Dell laptop",
                 CreatedBy = Creator.System,
@@ -47,8 +48,9 @@ public static class InventorySystem
             new Item
             {
                 ItemName = "Hand Drill",
+                OriginalQuantity = 30,
                 Quantity = 25,
-                Place = "Warehouse B",
+                Location = "Warehouse B",
                 Description = "DC drilling mechanical tool",
                 CreatedBy = Creator.System,
                 CategoryId = categories[1].CategoryId
@@ -56,8 +58,9 @@ public static class InventorySystem
             new Item
             {
                 ItemName = "A4",
+                OriginalQuantity = 34,
                 Quantity = 20,
-                Place = "Warehouse C",
+                Location = "Warehouse C",
                 Description = "A4 size papers",
                 CreatedBy = Creator.System,
                 CategoryId = categories[2].CategoryId
@@ -65,8 +68,9 @@ public static class InventorySystem
             new Item
             {
                 ItemName = "3D Printer",
+                OriginalQuantity = 1,
                 Quantity = 1,
-                Place = "Warehouse C",
+                Location = "Warehouse C",
                 Description = "Creality Brand 3D printer",
                 CreatedBy = Creator.System,
                 CategoryId = categories[2].CategoryId
@@ -74,8 +78,9 @@ public static class InventorySystem
             new Item
             {
                 ItemName = "Smartphone",
+                OriginalQuantity = 6,
                 Quantity = 5,
-                Place = "Warehouse A",
+                Location = "Warehouse A",
                 Description = "Company issued phones",
                 CreatedBy = Creator.System,
                 CategoryId = categories[0].CategoryId

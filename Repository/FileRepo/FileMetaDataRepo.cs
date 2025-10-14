@@ -18,7 +18,6 @@ public class FileMetaDataRepo : IFileMetaDataRepo
     public async Task<FileMetadata> Create(FileMetadata fileMetadata)
     {
         await dbSet.AddAsync(fileMetadata);
-        await _context.SaveChangesAsync();
         return fileMetadata;
     }
 

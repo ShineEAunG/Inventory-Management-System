@@ -6,11 +6,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InventoryManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class Initials : Migration
+    public partial class Edit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "FileMetadatas",
+                columns: table => new
+                {
+                    GeneratedName = table.Column<string>(type: "text", nullable: false),
+                    OriginalName = table.Column<string>(type: "text", nullable: false),
+                    ContentType = table.Column<string>(type: "text", nullable: false),
+                    UploadedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UploadedBy = table.Column<string>(type: "text", nullable: false),
+                    isDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileMetadatas", x => x.GeneratedName);
+                });
+
             migrationBuilder.CreateTable(
                 name: "TblCategory",
                 columns: table => new
@@ -86,8 +103,8 @@ namespace InventoryManagementSystem.Migrations
                     ItemId = table.Column<string>(type: "text", nullable: false),
                     ItemName = table.Column<string>(type: "text", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
-                    Place = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: false),
+                    Location = table.Column<string>(type: "text", nullable: false),
+                    FileId = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -112,11 +129,11 @@ namespace InventoryManagementSystem.Migrations
                 {
                     RefreshTokenId = table.Column<string>(type: "text", nullable: false),
                     RefreshTokenHash = table.Column<string>(type: "text", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ExpiresAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    RevokeAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    ReplacedTokenId = table.Column<Guid>(type: "uuid", nullable: true),
+                    RevokeAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    ReplacedTokenId = table.Column<string>(type: "text", nullable: true),
                     EmployeeId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -186,6 +203,12 @@ namespace InventoryManagementSystem.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TblEmployees_Email",
+                table: "TblEmployees",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TblItem_CategoryId",
                 table: "TblItem",
                 column: "CategoryId");
@@ -204,6 +227,9 @@ namespace InventoryManagementSystem.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "FileMetadatas");
+
             migrationBuilder.DropTable(
                 name: "TblEmployeeRoles");
 

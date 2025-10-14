@@ -10,6 +10,6 @@ public interface IItemService
     Task<OperationResult> Update(IFormFile? file, Ulid itemId, UpdateItemDto? itemDetails);
     Task<ItemDetails?> GetById(Ulid itemId);
 
-    Task<PaginatedList<ItemDetails>> GetAll(string? keyWord);
+    Task<PaginatedList<ItemDetails>> GetAll(ItemQueryParams queryParams);
     string? GetFileUrl(string generatedFileName);
 }

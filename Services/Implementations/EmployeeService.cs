@@ -21,9 +21,9 @@ public class EmployeeService : IEmployeeService
         return await _empRepo.GetEmployeeWithRolesByEmail(email);
     }
 
-    public async Task<PaginatedList<EmployeeDetailsDto>> GetAll(string? keyWord)
+    public async Task<PaginatedList<EmployeeDetailsDto>> GetAll(EmployeeQueryParams queryParams)
     {
-        return await _empRepo.GetAllEmployeesWithRoles(keyWord);
+        return await _empRepo.GetAllEmployeesWithRoles(queryParams);
     }
 
     public async Task<OperationResult> RegisterOrCreate(RegisterEmployeeDto employeeDto)

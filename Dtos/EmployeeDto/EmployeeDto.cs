@@ -42,3 +42,9 @@ public class EmployeeDetailsDto
     public List<string> Roles { get; set; } = new();
     public List<string> Permissions { get; set; } = new();
 }
+public class EmployeeQueryParams
+{
+    public string SearchTerm { get; set; } = string.Empty;
+    public int PageIndex { get; set; } = 1;
+    public int PageSize { get; set; } = 6;
+}

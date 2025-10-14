@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InventoryManagementSystem.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 public class ItemController : ControllerBase
 {
     private readonly IItemService _itemService;
@@ -17,8 +17,8 @@ public class ItemController : ControllerBase
 
         this._itemService = itemService;
     }
-    [HttpGet("fileUrl")]
-    public IActionResult GetUrl(string generatedFileName)
+    [HttpGet("fileUrl/{generatedFileName}")]
+    public IActionResult GetUrl([FromQuery]string generatedFileName)
     {
         if (ModelState.IsValid)
         {
@@ -29,9 +29,9 @@ public class ItemController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery]string? keyWord)
+    public async Task<IActionResult> GetAll([FromQuery]ItemQueryParams queryParams )
     {
-        var items = await _itemService.GetAll(keyWord);
+        var items = await _itemService.GetAll(queryParams);
         return Ok(items);
     }
     [HttpGet("{itemId}")]
